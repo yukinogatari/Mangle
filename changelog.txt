@@ -1,0 +1,18 @@
+Version 2.2:
+
+--Updated from v2.1 by Jeremy Davidson (http://blackdragonhunt.wordpress.com/)
+
+--Major Updgrades:
+  --Added the option to export books to CBZ format.
+  --Added the option to split images instead of rotating them to match the device's aspect ratio.
+
+--Minor Changes:
+  --Added profiles for nook (600x730) and nook color (600x1024).
+    --Note: Since the nook color is, well, full-color, and palette reduction is unnecessary, the "dither" option uses the same palette as the regular nook/Kindle 3, if you want to use that for whatever reason.
+  --Changed the wording on "Resize images" to more accurately reflect what it does: shrinks oversized images.
+  --Added an option to enlarge images which are smaller than the selected device's resolution
+    --Note: Shrinking images uses the PIL's antialias filter, and enlarging images uses the bicubic filter.
+  --Added "Save Defaults" and "Restore Defaults" buttons to the options page. This allows you to change which options are set by default when creating a new book.
+  --Added a button to the toolbar which opens the options menu. (Icon provided by http://pixel-mixer.com)
+  --The save/open dialogs now keep track of the last directory saved to/loaded from for as long as the program is open.
+  --There may be some more I'm not remembering, but that's the gist of it.

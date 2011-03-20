@@ -1,0 +1,25 @@
+*.pyc
+*.pyo
+*.mngl
+defaults.xml
+*.cbz
+*.manga
+*.manga_save
+
+# Ignore any directories we haven't specified.
+# This is becuse Mangle can create directories of any name.
+*/
+
+# All files in the dev subdirectory, and all its subdirectories.
+!dev/
+!dev/*
+!dev/res/
+!dev/res/*
+!dev/res/img/
+!dev/res/img/*
+!dev/ui/
+!dev/ui/*
+
+# All files in the ui subdirectory, and all its subdirectories.
+!ui/
+!ui/*
