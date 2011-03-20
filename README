@@ -1,0 +1,9 @@
+An unofficial fork of Mangle, a batch comic-book image converter for e-readers.
+Originally by Alex Yatskov: http://foosoft.net/mangle/
+
+Read "attributions.txt" for resource-related attributions.
+Read "changelog.txt" to see what's changed (since it was forked at version 2.1).
+Read "license.txt" for license information.
+
+"makefile" is for updating the /ui/*.py files according to changes made to the
+/dev/ui/*.ui files in QT Designer.
