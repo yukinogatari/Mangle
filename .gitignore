@@ -1,11 +1,3 @@
-*.pyc
-*.pyo
-*.mngl
-defaults.xml
-*.cbz
-*.manga
-*.manga_save
-
 # Ignore any directories we haven't specified.
 # This is becuse Mangle can create directories of any name.
 */
@@ -23,3 +15,12 @@ defaults.xml
 # All files in the ui subdirectory, and all its subdirectories.
 !ui/
 !ui/*
+
+# Any files we want to ignore, regardless of where they are.
+*.pyc
+*.pyo
+*.mngl
+defaults.xml
+*.cbz
+*.manga
+*.manga_save
