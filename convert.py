@@ -31,6 +31,10 @@ class DialogConvert(QtGui.QProgressDialog):
         self.setWindowTitle('Exporting book...')
         self.setMaximum(len(self.book.images))
         self.setValue(0)
+        
+        # Since we can generate multiple images from a single source image,
+        # we use this counter to determine how to name the files.
+        self.counter = 0
 
 
     def showEvent(self, event):
@@ -45,15 +49,15 @@ class DialogConvert(QtGui.QProgressDialog):
 
         out_dir = ""
         cbz = ""
+        
+        name_template = "%05d.png"
 
         if self.book.cbz:
           out_dir = os.path.split(self.target)[0]
           cbz = self.target
         else:
           out_dir = os.path.join(unicode(self.target), unicode(self.book.title))
-
-        # If we're exporting to file, we need the full path. Otherwise, we just need the filename.
-        out_file = os.path.join(out_dir, '%05d.png' % index) if not self.book.cbz else ('%05d.png' % index)
+        
         source = unicode(self.book.images[index])
 
         if index == 0:
@@ -68,7 +72,8 @@ class DialogConvert(QtGui.QProgressDialog):
             try:
                 base = os.path.join(out_dir, unicode(self.book.title))
 
-                saveData = u'LAST=/mnt/us/pictures/%s/%s' % (self.book.title, os.path.split(out_file)[1])
+                # What, exactly, is this for? I never could figure it out.
+                saveData = u'LAST=/mnt/us/pictures/%s/%s' % (self.book.title, name_template % self.counter)
 
                 if not self.book.cbz:
 
@@ -107,27 +112,43 @@ class DialogConvert(QtGui.QProgressDialog):
         self.setLabelText('Processing %s...' % os.path.split(source)[1])
 
         try:
-            conv_img = image.convertImage(source, str(self.book.device), self.book.imageFlags)
+            # Since splitting is an option, we can get multiple files back from
+            # the convert operation, and it'll always be stored in a list.
+            images = image.convertImage(source, str(self.book.device), self.book.imageFlags)
+            # lol cheating
+            #conv_img = images[0]
+            
+            for conv_img in images:
 
-            if (self.book.overwrite or not os.path.isfile(out_file)) and not self.book.cbz:
+                # If we're exporting to file, we need the full path. Otherwise, we just need the filename.
+                out_file = (
+                    os.path.join(out_dir, name_template % self.counter) if not self.book.cbz 
+                    else (name_template % self.counter)
+                )
 
-                try:
-                    conv_img.save(out_file)
+                if (self.book.overwrite or not os.path.isfile(out_file)) and not self.book.cbz:
 
-                except IOError:
-                    raise RuntimeError('Cannot write image file %s' % out_file)
+                    try:
+                        conv_img.save(out_file)
 
-            if self.book.cbz:
-                cbz_out = ZipFile(cbz, 'a', ZIP_DEFLATED)
+                    except IOError:
+                        raise RuntimeError('Cannot write image file %s' % out_file)
 
-                # Write the image in PNG format to an object pretending to be a file, so we can
-                # dump the string data into the CBZ file without saving to disk first.
-                out_str = StringIO.StringIO()
-                conv_img.save(out_str, format='PNG')
-                cbz_out.writestr(out_file, out_str.getvalue())
-                out_str.close()
+                if self.book.cbz:
+                    cbz_out = ZipFile(cbz, 'a', ZIP_DEFLATED)
 
-                cbz_out.close()
+                    # Write the image in PNG format to an object pretending to be a file, so we can
+                    # dump the string data into the CBZ file without saving to disk first.
+                    out_str = StringIO.StringIO()
+                    conv_img.save(out_str, format='PNG')
+                    cbz_out.writestr(out_file, out_str.getvalue())
+                    out_str.close()
+
+                    cbz_out.close()
+                
+                # We're done with this image, so up the counter.
+                self.counter = self.counter + 1
+                
         except RuntimeError, error:
             result = QtGui.QMessageBox.critical(
                 self,
