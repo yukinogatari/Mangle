@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dev/ui/options.ui'
 #
-# Created: Sun Mar 20 00:06:33 2011
+# Created: Thu Mar 24 23:22:32 2011
 #      by: PyQt4 UI code generator 4.7.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PyQt4 import QtCore, QtGui
 class Ui_DialogOptions(object):
     def setupUi(self, DialogOptions):
         DialogOptions.setObjectName("DialogOptions")
-        DialogOptions.resize(333, 446)
+        DialogOptions.resize(333, 475)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -69,6 +69,14 @@ class Ui_DialogOptions(object):
         self.checkboxSplit.setAutoExclusive(False)
         self.checkboxSplit.setObjectName("checkboxSplit")
         self.verticalLayout_2.addWidget(self.checkboxSplit)
+        self.horizontalLayout = QtGui.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        spacerItem = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
+        self.checkboxRightToLeft = QtGui.QCheckBox(self.groupBox_2)
+        self.checkboxRightToLeft.setObjectName("checkboxRightToLeft")
+        self.horizontalLayout.addWidget(self.checkboxRightToLeft)
+        self.verticalLayout_2.addLayout(self.horizontalLayout)
         self.checkboxShrink = QtGui.QCheckBox(self.groupBox_2)
         self.checkboxShrink.setObjectName("checkboxShrink")
         self.verticalLayout_2.addWidget(self.checkboxShrink)
@@ -82,14 +90,14 @@ class Ui_DialogOptions(object):
         self.checkboxFrame.setObjectName("checkboxFrame")
         self.verticalLayout_2.addWidget(self.checkboxFrame)
         self.verticalLayout_4.addWidget(self.groupBox_2)
-        spacerItem = QtGui.QSpacerItem(20, 0, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout_4.addItem(spacerItem)
+        spacerItem1 = QtGui.QSpacerItem(20, 0, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem1)
         self.horizontalLayout_2 = QtGui.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        spacerItem1 = QtGui.QSpacerItem(0, 0, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem1)
+        spacerItem2 = QtGui.QSpacerItem(0, 0, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem2)
         self.restoreDefaults = QtGui.QPushButton(DialogOptions)
         self.restoreDefaults.setObjectName("restoreDefaults")
         self.verticalLayout.addWidget(self.restoreDefaults)
@@ -97,12 +105,12 @@ class Ui_DialogOptions(object):
         self.saveDefaults.setObjectName("saveDefaults")
         self.verticalLayout.addWidget(self.saveDefaults)
         self.horizontalLayout_2.addLayout(self.verticalLayout)
-        spacerItem2 = QtGui.QSpacerItem(0, 0, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem2)
+        spacerItem3 = QtGui.QSpacerItem(0, 0, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem3)
         self.verticalLayout_3 = QtGui.QVBoxLayout()
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        spacerItem3 = QtGui.QSpacerItem(0, 0, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout_3.addItem(spacerItem3)
+        spacerItem4 = QtGui.QSpacerItem(0, 0, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout_3.addItem(spacerItem4)
         self.buttonBox = QtGui.QDialogButtonBox(DialogOptions)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
@@ -126,7 +134,8 @@ class Ui_DialogOptions(object):
         DialogOptions.setTabOrder(self.checkboxOverwrite, self.checkboxCBZ)
         DialogOptions.setTabOrder(self.checkboxCBZ, self.checkboxOrient)
         DialogOptions.setTabOrder(self.checkboxOrient, self.checkboxSplit)
-        DialogOptions.setTabOrder(self.checkboxSplit, self.checkboxShrink)
+        DialogOptions.setTabOrder(self.checkboxSplit, self.checkboxRightToLeft)
+        DialogOptions.setTabOrder(self.checkboxRightToLeft, self.checkboxShrink)
         DialogOptions.setTabOrder(self.checkboxShrink, self.checkboxEnlarge)
         DialogOptions.setTabOrder(self.checkboxEnlarge, self.checkboxQuantize)
         DialogOptions.setTabOrder(self.checkboxQuantize, self.checkboxFrame)
@@ -158,6 +167,7 @@ class Ui_DialogOptions(object):
 "\n"
 "Note: This cannot be enabled simultaneously with \"Orient images to match aspect ratio.\"", None, QtGui.QApplication.UnicodeUTF8))
         self.checkboxSplit.setText(QtGui.QApplication.translate("DialogOptions", "Split images to match aspect ratio", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkboxRightToLeft.setText(QtGui.QApplication.translate("DialogOptions", "Right-to-left page order", None, QtGui.QApplication.UnicodeUTF8))
         self.checkboxShrink.setText(QtGui.QApplication.translate("DialogOptions", "Shrink oversized images to fit on screen", None, QtGui.QApplication.UnicodeUTF8))
         self.checkboxEnlarge.setText(QtGui.QApplication.translate("DialogOptions", "Enlarge undersized images to fit on screen", None, QtGui.QApplication.UnicodeUTF8))
         self.checkboxQuantize.setText(QtGui.QApplication.translate("DialogOptions", "Dither images to match device palette", None, QtGui.QApplication.UnicodeUTF8))

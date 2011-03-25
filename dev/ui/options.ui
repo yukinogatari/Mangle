@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>333</width>
-    <height>446</height>
+    <height>475</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -155,6 +155,33 @@ Note: This cannot be enabled simultaneously with &quot;Orient images to match as
        </widget>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkboxRightToLeft">
+          <property name="text">
+           <string>Right-to-left page order</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <widget class="QCheckBox" name="checkboxShrink">
         <property name="text">
          <string>Shrink oversized images to fit on screen</string>
@@ -285,6 +312,7 @@ Note: This cannot be enabled simultaneously with &quot;Orient images to match as
   <tabstop>checkboxCBZ</tabstop>
   <tabstop>checkboxOrient</tabstop>
   <tabstop>checkboxSplit</tabstop>
+  <tabstop>checkboxRightToLeft</tabstop>
   <tabstop>checkboxShrink</tabstop>
   <tabstop>checkboxEnlarge</tabstop>
   <tabstop>checkboxQuantize</tabstop>
@@ -303,7 +331,7 @@ Note: This cannot be enabled simultaneously with &quot;Orient images to match as
    <hints>
     <hint type="sourcelabel">
      <x>321</x>
-     <y>434</y>
+     <y>463</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -319,7 +347,7 @@ Note: This cannot be enabled simultaneously with &quot;Orient images to match as
    <hints>
     <hint type="sourcelabel">
      <x>321</x>
-     <y>434</y>
+     <y>463</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -334,8 +362,8 @@ Note: This cannot be enabled simultaneously with &quot;Orient images to match as
    <slot>restore_defaults()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>48</x>
-     <y>384</y>
+     <x>59</x>
+     <y>430</y>
     </hint>
     <hint type="destinationlabel">
      <x>121</x>
@@ -350,8 +378,8 @@ Note: This cannot be enabled simultaneously with &quot;Orient images to match as
    <slot>save_defaults()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>96</x>
-     <y>427</y>
+     <x>107</x>
+     <y>463</y>
     </hint>
     <hint type="destinationlabel">
      <x>199</x>

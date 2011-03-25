@@ -20,7 +20,7 @@ Version 2.2:
   * Added an option to enlarge images which are smaller than the selected
     device's resolution
     * Note: Shrinking images uses the PIL's antialias filter, and enlarging
-    images uses the bicubic filter.
+      images uses the bicubic filter.
   * Added "Save Defaults" and "Restore Defaults" buttons to the options page.
     This allows you to change which options are set by default when creating a
     new book.
