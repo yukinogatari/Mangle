@@ -16,6 +16,10 @@
 !ui/
 !ui/*
 
+# The Windows distributable.
+!dist/
+!dist/*
+
 # Any files we want to ignore, regardless of where they are.
 *.pyc
 *.pyo
