@@ -1,6 +1,13 @@
-Version 2.2:
-
 * Updated from v2.1 by Jeremy Davidson (http://blackdragonhunt.wordpress.com/)
+
+Version 2.2.0.1:
+
+***Bugfix***
+
+  * Fixed an error where, if defaults.xml did not exist, the program would fail
+    to create it and not load.
+
+Version 2.2:
 
 ***Major Upgrades***
   * Added the option to export books to CBZ format.

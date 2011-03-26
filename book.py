@@ -77,11 +77,11 @@ class Book:
             textXml = fileXml.read()
             fileXml.close()
         except IOError:
-            self.save_defaults(filename)
             self.device = Book.DefaultDevice
             self.overwrite = Book.DefaultOverwrite
             self.imageFlags = Book.DefaultImageFlags
             self.cbz = Book.DefaultCBZ
+            self.save_defaults(filename)
             return
 
         document = QtXml.QDomDocument()
