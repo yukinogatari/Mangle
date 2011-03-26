@@ -51,11 +51,12 @@ class Book:
         root.setAttribute('overwrite', 'true' if self.overwrite else 'false')
         root.setAttribute('device', self.device)
         root.setAttribute('orientImages', 'true' if self.imageFlags & ImageFlags.Orient else 'false')
-        root.setAttribute('splitImages', 'true' if self.imageFlags & ImageFlags.Split else 'false')
         root.setAttribute('shrinkImages', 'true' if self.imageFlags & ImageFlags.Shrink else 'false')
-        root.setAttribute('enlargeImages', 'true' if self.imageFlags & ImageFlags.Enlarge else 'false')
         root.setAttribute('frameImages', 'true' if self.imageFlags & ImageFlags.Frame else 'false')
         root.setAttribute('ditherImages', 'true' if self.imageFlags & ImageFlags.Quantize else 'false')
+        root.setAttribute('enlargeImages', 'true' if self.imageFlags & ImageFlags.Enlarge else 'false')
+        root.setAttribute('splitImages', 'true' if self.imageFlags & ImageFlags.Split else 'false')
+        root.setAttribute('rightToLeft', 'true' if self.imageFlags & ImageFlags.RightToLeft else 'false')
         root.setAttribute('cbz', 'true' if self.cbz else 'false')
 
         textXml = document.toString(4).toUtf8()
@@ -101,13 +102,15 @@ class Book:
         enlarge = root.attribute('enlargeImages', 'true' if Book.DefaultImageFlags & ImageFlags.Enlarge else 'false') == 'true'
         frame = root.attribute('frameImages', 'true' if Book.DefaultImageFlags & ImageFlags.Frame else 'false') == 'true'
         dither = root.attribute('ditherImages', 'true' if Book.DefaultImageFlags & ImageFlags.Quantize else 'false') == 'true'
+        rtl = root.attribute('rightToLeft', 'true' if Book.DefaultImageFlags & ImageFlags.RightToLeft else 'false') == 'true'
         self.imageFlags = (
             (ImageFlags.Orient if orient else 0) |
             (ImageFlags.Split if split else 0) |
             (ImageFlags.Shrink if shrink else 0) |
             (ImageFlags.Enlarge if enlarge else 0) |
             (ImageFlags.Frame if frame else 0) |
-            (ImageFlags.Quantize if dither else 0)
+            (ImageFlags.Quantize if dither else 0) |
+            (ImageFlags.RightToLeft if rtl else 0)
         )
         
         self.cbz = root.attribute('cbz', 'true' if Book.DefaultCBZ else 'false') == 'true'

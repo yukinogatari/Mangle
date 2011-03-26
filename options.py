@@ -111,8 +111,11 @@ class DialogOptions(QtGui.QDialog, Ui_DialogOptions):
     # Slot called when the Split checkbox is changed.
     #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     def split_changed(self, value):
-        if value == QtCore.Qt.Checked:
+        if value == QtCore.Qt.Unchecked:
+            self.checkboxRightToLeft.setDisabled(True)
+        else:
             self.checkboxOrient.setChecked(QtCore.Qt.Unchecked)
+            self.checkboxRightToLeft.setDisabled(False)
 
     #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     # Takes the options stored in a book object and changes the UI
@@ -129,6 +132,12 @@ class DialogOptions(QtGui.QDialog, Ui_DialogOptions):
         self.checkboxEnlarge.setChecked(QtCore.Qt.Checked if self.book.imageFlags & ImageFlags.Enlarge else QtCore.Qt.Unchecked)
         self.checkboxQuantize.setChecked(QtCore.Qt.Checked if self.book.imageFlags & ImageFlags.Quantize else QtCore.Qt.Unchecked)
         self.checkboxFrame.setChecked(QtCore.Qt.Checked if self.book.imageFlags & ImageFlags.Frame else QtCore.Qt.Unchecked)
+        self.checkboxRightToLeft.setChecked(QtCore.Qt.Checked if self.book.imageFlags & ImageFlags.RightToLeft else QtCore.Qt.Unchecked)
+        
+        # No need for the option if splitting is disabled. And it won't signal
+        # the "changed" event if it starts out disabled.
+        if self.checkboxSplit.checkState() == QtCore.Qt.Unchecked:
+            self.checkboxRightToLeft.setDisabled(True)
 
     #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     # Stores the selected options in the book object.
@@ -152,6 +161,8 @@ class DialogOptions(QtGui.QDialog, Ui_DialogOptions):
             imageFlags |= ImageFlags.Quantize
         if self.checkboxFrame.checkState() == QtCore.Qt.Checked:
             imageFlags |= ImageFlags.Frame
+        if self.checkboxRightToLeft.checkState() == QtCore.Qt.Checked:
+            imageFlags |= ImageFlags.RightToLeft
 
         modified = (
             self.book.title != title or

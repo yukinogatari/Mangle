@@ -6,15 +6,23 @@ Version 2.2:
   * Added the option to export books to CBZ format.
   * Added the option to split images instead of rotating them to match the
     device's aspect ratio.
+    * Note: Because of the nook color's unusual aspect ratio, average-sized
+      manga pages tend to get split in half, and double pages tend to be
+      split into three. You might have better luck using the regular nook
+      profile if you want to split the wide pages.
   * Changed how "Draw frame around images" handles oversized images:
     Previously, oversized images would be cropped to the device's dimensions.
     Now a frame is added such that the image matches the device's aspect ratio.
 
 ***Minor Changes***
-  * Added profiles for nook (600x730) and nook color (600x1024).
+  * Added profiles for nook (600x730) and nook color (600x980).
     * Note: Since the nook color is, well, full-color, and palette reduction is
       unnecessary, the "dither" option uses the same palette as the regular
       nook/Kindle 3, if you want to use that for whatever reason.
+    * Note: The nook color's resolution was selected based on this post:
+      http://www.mobileread.com/forums/showpost.php?p=1225568&postcount=189
+      I figure it's more useful to size pages to the actual usable resolution,
+      so the e-reader doesn't end up resizing it again before display.
   * Changed the wording on "Resize images" to more accurately reflect what it
     does: shrinks oversized images.
   * Added an option to enlarge images which are smaller than the selected

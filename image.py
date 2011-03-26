@@ -61,7 +61,7 @@ class KindleData:
         'Kindle DX': ((824, 1200), Palette15),
         'Kindle DXG': ((824, 1200), Palette15),
         'nook': ((600, 730), Palette15),
-        'nook color': ((600, 1024), Palette15)
+        'nook color': ((600, 980), Palette15)
     }
 
 
@@ -269,7 +269,7 @@ def convertImage(source, device, flags):
     images = []
     
     if flags & ImageFlags.Split:
-        images = splitImage(image, size)
+        images = splitImage(image, size, flags & ImageFlags.RightToLeft)
     else:
         images = [image]
     
