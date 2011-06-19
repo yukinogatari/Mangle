@@ -184,7 +184,7 @@ def frameImage(image, foreground, background, size):
     return imageBg
 
 
-def splitImage(image, size, rtl = True):
+def splitImage(image, size, max_pages, rtl = True):
     widthDev, heightDev = size
     widthImg, heightImg = image.size
     
@@ -205,7 +205,7 @@ def splitImage(image, size, rtl = True):
     # If the image has a smaller aspect ratio, this will be 1.
     # We use the ceiling because, if we used the floor, the new images would
     # end up still wider than the device.
-    numPages = int(math.ceil(float(aspectImg) / float(aspectDev)))
+    numPages = min(int(math.ceil(float(aspectImg) / float(aspectDev))), max_pages)
     
     # The list of images we'll be returning. Even if we don't split anything,
     # everything else has to assume they'll be getting multiple images.
@@ -269,7 +269,7 @@ def convertImage(source, device, flags):
     images = []
     
     if flags & ImageFlags.Split:
-        images = splitImage(image, size, flags & ImageFlags.RightToLeft)
+        images = splitImage(image, size, 2, flags & ImageFlags.RightToLeft)
     else:
         images = [image]
     
