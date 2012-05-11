@@ -99,7 +99,7 @@ class DialogConvert(QtGui.QProgressDialog):
                         # If the file already exists, get rid of it before we start writing to it,
                         # since we open the zip file in append mode.
                         os.remove(cbz)
-                    cbz_out = ZipFile(cbz, 'a', ZIP_DEFLATED)
+                    cbz_out = ZipFile(cbz, 'a', ZIP_DEFLATED, allowZip64 = True)
                     cbz_out.writestr(mangaName, '\x00')
                     cbz_out.writestr(mangaSaveName, saveData.encode('utf-8'))
                     cbz_out.close()
@@ -135,7 +135,7 @@ class DialogConvert(QtGui.QProgressDialog):
                         raise RuntimeError('Cannot write image file %s' % out_file)
 
                 if self.book.cbz:
-                    cbz_out = ZipFile(cbz, 'a', ZIP_DEFLATED)
+                    cbz_out = ZipFile(cbz, 'a', ZIP_DEFLATED, allowZip64 = True)
 
                     # Write the image in PNG format to an object pretending to be a file, so we can
                     # dump the string data into the CBZ file without saving to disk first.
