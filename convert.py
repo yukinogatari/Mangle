@@ -59,7 +59,6 @@ class DialogConvert(QtGui.QProgressDialog):
         out_dir = ""
         cbz = ""
         epub = ""
-        epub_out = self.epub_out
         
         name_template = "%05d.png"
 
@@ -145,7 +144,7 @@ class DialogConvert(QtGui.QProgressDialog):
                         conv_img.save(out_file)
                         
                         if self.book.epub:
-                          
+                          epub_out = self.epub_out
                           epub_out.setTitle(unicode(self.book.title))
                  
                           item = epub_out.addImage(out_file, name_template % self.counter)
