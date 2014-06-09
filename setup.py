@@ -20,10 +20,9 @@ import sys
 from distutils.core import setup
 import py2exe
 
-
 sys.argv.append('py2exe')
 setup(
     windows=[{'script': 'mangle.pyw'}],
-    options={'py2exe': {'bundle_files': 1, 'includes': ['sip']}},
+    options={'py2exe': {'bundle_files': 1, 'includes': ['sip'], 'dll_excludes': ['MSVCP90.dll'] }},
     zipfile=None
 )

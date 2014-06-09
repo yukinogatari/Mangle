@@ -24,10 +24,15 @@ from options import DialogOptions
 from convert import DialogConvert
 from ui.book_ui import Ui_MainWindowBook
 
+
+import mimetypes
+import tempfile
+
 class Book:
     DefaultDevice = 'Kindle 3'
     DefaultOverwrite = True
     DefaultCBZ = False
+    DefaultEPUB = False
     DefaultImageFlags = ImageFlags.Orient | ImageFlags.Shrink | ImageFlags.Quantize
     DefaultsXML = 'defaults.xml'
 
@@ -58,7 +63,8 @@ class Book:
         root.setAttribute('splitImages', 'true' if self.imageFlags & ImageFlags.Split else 'false')
         root.setAttribute('rightToLeft', 'true' if self.imageFlags & ImageFlags.RightToLeft else 'false')
         root.setAttribute('cbz', 'true' if self.cbz else 'false')
-
+        root.setAttribute('epub', 'true' if self.epub else 'false')
+		
         textXml = document.toString(4).toUtf8()
 
         try:
@@ -81,6 +87,7 @@ class Book:
             self.overwrite = Book.DefaultOverwrite
             self.imageFlags = Book.DefaultImageFlags
             self.cbz = Book.DefaultCBZ
+            self.epub = Book.DefaultEPUB
             self.save_defaults(filename)
             return
 
@@ -114,6 +121,7 @@ class Book:
         )
         
         self.cbz = root.attribute('cbz', 'true' if Book.DefaultCBZ else 'false') == 'true'
+        self.epub = root.attribute('epub', 'true' if Book.DefaultEPUB else 'false') == 'true'
 
     #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     # Saves the current state to a book file.
@@ -129,6 +137,7 @@ class Book:
         root.setAttribute('device', self.device)
         root.setAttribute('imageFlags', self.imageFlags)
         root.setAttribute('cbz', 'true' if self.cbz else 'false')
+        root.setAttribute('epub', 'true' if self.epub else 'false')
 
         for filenameImg in self.images:
             itemImg = document.createElement('image')
@@ -172,6 +181,7 @@ class Book:
         self.device = root.attribute('device', Book.DefaultDevice)
         self.imageFlags = int(root.attribute('imageFlags', str(Book.DefaultImageFlags)))
         self.cbz = root.attribute('cbz', 'true' if Book.DefaultCBZ else 'false') == 'true'
+        self.epub = root.attribute('epub', 'true' if Book.DefaultEpub else 'false') == 'true'
         self.filename = filename
         self.modified = False
         self.images = []
@@ -206,6 +216,7 @@ class MainWindowBook(QtGui.QMainWindow, Ui_MainWindowBook):
         self.connect(self.listWidgetFiles, QtCore.SIGNAL('customContextMenuRequested(const QPoint&)'), self.onFilesContextMenu)
         self.connect(self.listWidgetFiles, QtCore.SIGNAL('itemDoubleClicked (QListWidgetItem *)'), self.onFilesDoubleClick)
         self.listWidgetFiles.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+	
 
         self.book = Book()
         if filename != None:
@@ -334,26 +345,36 @@ class MainWindowBook(QtGui.QMainWindow, Ui_MainWindowBook):
         # If exporting to CBZ, this is a filename. If not, this is a directory name.
         out_path = ""
 
-        if self.book.cbz == False:
+        if self.book.cbz == True:
+          out_path = QtGui.QFileDialog.getSaveFileName(
+            self,
+            'Select image file(s) to add',
+            # Default to the current directory + the book's title + the cbz extension.
+            os.path.join(self.current_dir, "%s.cbz" % self.book.title),
+            'Comic Book Archive File (*.cbz);;All files (*.*)'
+            )
+            #Keep track of wherever they moved to find this file.
+          self.current_dir = os.path.split(str(out_path))[0]
+        
+        elif self.book.epub == True:
+          out_path = QtGui.QFileDialog.getSaveFileName(
+            self,
+            'Select image file(s) to add',
+            os.path.join(self.current_dir, "%s.epub" % self.book.title),
+            'Electronic Publication File (*.epub);;All files (*.*)'
+            )
+          self.current_dir = os.path.split(str(out_path))[0]
+        else:
             out_path = QtGui.QFileDialog.getExistingDirectory(self, 'Select a directory to export book to', self.current_dir)
             # Keep track of wherever they moved to find this directory.
             self.current_dir = str(out_path)
-        else:
-            out_path = QtGui.QFileDialog.getSaveFileName(
-                self,
-                'Select image file(s) to add',
-                # Default to the current directory + the book's title + the cbz extension.
-                os.path.join(self.current_dir, "%s.cbz" % self.book.title),
-                'Comic Book Archive File (*.cbz);;All files (*.*)'
-            )
-            # Keep track of wherever they moved to find this file.
-            self.current_dir = os.path.split(str(out_path))[0]
-        
+           
+            
         if not out_path.isNull():
             dialog = DialogConvert(self, self.book, out_path)
             dialog.exec_()
 
-
+		
     def onHelpHomepage(self):
         services = QtGui.QDesktopServices()
         services.openUrl(QtCore.QUrl('http://foosoft.net/mangle'))

@@ -100,6 +100,15 @@ class DialogOptions(QtGui.QDialog, Ui_DialogOptions):
         else:
             self.checkboxOverwrite.setDisabled(False)
 
+            
+    #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    # Slot called when the EPUB checkbox is changed.
+    #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    def epub_changed(self, value):
+        if value == QtCore.Qt.Checked:
+            self.checkboxOverwrite.setDisabled(True)
+        else:
+            self.checkboxOverwrite.setDisabled(False)
     #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     # Slot called when the Orient checkbox is changed.
     #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -126,6 +135,7 @@ class DialogOptions(QtGui.QDialog, Ui_DialogOptions):
         self.comboBoxDevice.setCurrentIndex(max(self.comboBoxDevice.findText(self.book.device), 0))
         self.checkboxOverwrite.setChecked(QtCore.Qt.Checked if self.book.overwrite else QtCore.Qt.Unchecked)
         self.checkboxCBZ.setChecked(QtCore.Qt.Checked if self.book.cbz else QtCore.Qt.Unchecked)
+        self.checkboxEpub.setChecked(QtCore.Qt.Checked if self.book.epub else QtCore.Qt.Unchecked)
         self.checkboxOrient.setChecked(QtCore.Qt.Checked if self.book.imageFlags & ImageFlags.Orient else QtCore.Qt.Unchecked)
         self.checkboxSplit.setChecked(QtCore.Qt.Checked if self.book.imageFlags & ImageFlags.Split else QtCore.Qt.Unchecked)
         self.checkboxShrink.setChecked(QtCore.Qt.Checked if self.book.imageFlags & ImageFlags.Shrink else QtCore.Qt.Unchecked)
@@ -147,6 +157,7 @@ class DialogOptions(QtGui.QDialog, Ui_DialogOptions):
         device = self.comboBoxDevice.itemText(self.comboBoxDevice.currentIndex())
         overwrite = self.checkboxOverwrite.checkState() == QtCore.Qt.Checked
         cbz = self.checkboxCBZ.checkState() == QtCore.Qt.Checked
+        epub = self.checkboxEpub.checkState() == QtCore.Qt.Checked
 
         imageFlags = 0
         if self.checkboxOrient.checkState() == QtCore.Qt.Checked:
@@ -169,7 +180,8 @@ class DialogOptions(QtGui.QDialog, Ui_DialogOptions):
             self.book.device != device or
             self.book.overwrite != overwrite or
             self.book.imageFlags != imageFlags or
-            self.book.cbz != cbz
+            self.book.cbz != cbz or
+            self.book.epub != epub
         )
 
         if modified:
@@ -179,3 +191,4 @@ class DialogOptions(QtGui.QDialog, Ui_DialogOptions):
             self.book.overwrite = overwrite
             self.book.imageFlags = imageFlags
             self.book.cbz = cbz
+            self.book.epub = epub
