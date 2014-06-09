@@ -55,6 +55,7 @@ class KindleData:
     ]
 
     Profiles = {
+        'Aura HD': ((1080, 1440), Palette15),
         'Kindle 1': ((600, 800), Palette4),
         'Kindle 2': ((600, 800), Palette15),
         'Kindle 3': ((600, 800), Palette15),
