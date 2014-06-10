@@ -29,7 +29,7 @@ import mimetypes
 import tempfile
 
 class Book:
-    DefaultDevice = 'Kindle 3'
+    DefaultDevice = 'Aura HD'
     DefaultOverwrite = True
     DefaultCBZ = False
     DefaultEPUB = False
