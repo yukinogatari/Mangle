@@ -20,6 +20,10 @@ import image
 from zipfile import ZipFile, ZIP_DEFLATED
 import StringIO
 
+from epub import EpubBook
+import mimetypes
+import tempfile
+
 class DialogConvert(QtGui.QProgressDialog):
     def __init__(self, parent, book, target):
         QtGui.QProgressDialog.__init__(self)
@@ -35,20 +39,26 @@ class DialogConvert(QtGui.QProgressDialog):
         # Since we can generate multiple images from a single source image,
         # we use this counter to determine how to name the files.
         self.counter = 0
-
+      
+        if self.book.epub:
+          out_dir = os.path.join(unicode(self.target), unicode(self.book.title))
+          epub = self.target
+          self.epub_out = EpubBook()
+          
 
     def showEvent(self, event):
         if self.timer == None:
             self.timer = QtCore.QTimer()
             self.connect(self.timer, QtCore.SIGNAL('timeout()'), self.onTimer)
             self.timer.start(0)
-
-
+    
+    
     def onTimer(self):
         index = self.value()
 
         out_dir = ""
         cbz = ""
+        epub = ""
         
         name_template = "%05d.png"
 
@@ -75,7 +85,7 @@ class DialogConvert(QtGui.QProgressDialog):
                 # What, exactly, is this for? I never could figure it out.
                 saveData = u'LAST=/mnt/us/pictures/%s/%s' % (self.book.title, name_template % self.counter)
 
-                if not self.book.cbz:
+                if not self.book.cbz | self.book.epub:
 
                     mangaName = '%s.manga' % base
                     mangaSaveName = '%s.manga_save' % base
@@ -103,6 +113,8 @@ class DialogConvert(QtGui.QProgressDialog):
                     cbz_out.writestr(mangaName, '\x00')
                     cbz_out.writestr(mangaSaveName, saveData.encode('utf-8'))
                     cbz_out.close()
+                
+              
 
             except IOError:
                 QtGui.QMessageBox.critical(self, 'Mangle', 'Cannot write manga file(s) to directory %s' % out_dir)
@@ -122,7 +134,7 @@ class DialogConvert(QtGui.QProgressDialog):
 
                 # If we're exporting to file, we need the full path. Otherwise, we just need the filename.
                 out_file = (
-                    os.path.join(out_dir, name_template % self.counter) if not self.book.cbz 
+                    os.path.join(out_dir, name_template % self.counter) if not self.book.cbz
                     else (name_template % self.counter)
                 )
 
@@ -130,7 +142,18 @@ class DialogConvert(QtGui.QProgressDialog):
 
                     try:
                         conv_img.save(out_file)
-
+                        
+                        if self.book.epub:
+                          epub_out = self.epub_out
+                          epub_out.setTitle(unicode(self.book.title))
+                 
+                          item = epub_out.addImage(out_file, name_template % self.counter)
+                          page = epub_out.addHtmlForImage(item)
+                          epub_out.addSpineItem(page)
+                          if self.counter == 0:
+                            epub_out.addTocMapNode(page.destPath, "Page " + str(self.counter + 1))
+                            
+                
                     except IOError:
                         raise RuntimeError('Cannot write image file %s' % out_file)
 
@@ -148,6 +171,7 @@ class DialogConvert(QtGui.QProgressDialog):
                 
                 # We're done with this image, so up the counter.
                 self.counter = self.counter + 1
+               
                 
         except RuntimeError, error:
             result = QtGui.QMessageBox.critical(
@@ -162,3 +186,6 @@ class DialogConvert(QtGui.QProgressDialog):
                 return
 
         self.setValue(index + 1)
+   
+        if self.book.epub:
+          epub_out.createArchiveNew(out_dir + ".epub")
