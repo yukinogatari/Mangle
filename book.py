@@ -357,13 +357,8 @@ class MainWindowBook(QtGui.QMainWindow, Ui_MainWindowBook):
           self.current_dir = os.path.split(str(out_path))[0]
         
         elif self.book.epub == True:
-          out_path = QtGui.QFileDialog.getSaveFileName(
-            self,
-            'Select image file(s) to add',
-            os.path.join(self.current_dir, "%s.epub" % self.book.title),
-            'Electronic Publication File (*.epub);;All files (*.*)'
-            )
-          self.current_dir = os.path.split(str(out_path))[0]
+          out_path = QtGui.QFileDialog.getExistingDirectory(self, 'Select a directory to export epub to', self.current_dir)
+          self.current_dir = str(out_path)
         else:
             out_path = QtGui.QFileDialog.getExistingDirectory(self, 'Select a directory to export book to', self.current_dir)
             # Keep track of wherever they moved to find this directory.
